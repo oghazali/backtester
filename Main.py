@@ -364,7 +364,17 @@ data = DataHandler(event_queue, ticker)
 strategy = Strategy(event_queue, data)
 port = Portfolio(event_queue, data, start_capital)
 log = OrderLog(event_queue, data, order_log, port)
+"""
+the way the loop works is that it gets a piece of data, for every piece of 
+data it creates an event object(events are listed at the top of code). Below,
+if any specific event is added to the timeline (event_queue) a certain action occurs
 
+for example, if it is a CloseEvent, i calculate the moving averages and update 
+my position value with the close price and cancel orders that are end of day orders
+
+if there is no event in the queue, i go to the next day and create more events from there
+
+"""
 while True:
     if data.continue_test is True:
         data.update_data()
